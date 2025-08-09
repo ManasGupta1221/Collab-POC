@@ -1,103 +1,112 @@
-import Image from "next/image";
+"use client";
+import { useRouter } from "next/navigation";
+import { FaSignInAlt, FaArrowRight } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.js
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  const router = useRouter();
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setMousePosition({ x: e.clientX, y: e.clientY });
+    };
+
+    window.addEventListener('mousemove', handleMouseMove);
+    
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  const handleLoginClick = () => {
+    router.push("/login");
+  };
+
+  return (
+    <div
+      className="flex flex-col justify-center items-center min-h-screen text-gray-100 relative"
+      style={{
+        backgroundImage: "url('/denim.jpg')",
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      {/* Custom Cursor Follower */}
+      <div
+        className="fixed pointer-events-none z-[10] mix-blend-difference transition-transform duration-100 ease-out"
+        style={{
+          left: mousePosition.x - 8,
+          top: mousePosition.y - 8,
+          transform: 'translate(0, 0)',
+        }}
+      >
+        <div className="w-4 h-4 bg-[rgb(185,10,10)] rounded-full shadow-lg "></div>
+      </div>
+
+      {/* Dark overlay for better text readability */}
+      <div className="absolute inset-0 bg-gradient-to-br from-black/85 to-black/50"></div>
+
+      <div className="absolute inset-0">
+        {/* Animated Circles */}
+        <div className="absolute top-38 right-18 w-24 h-24 bg-[rgb(185,10,10)]/20 rounded-full blur-md animate-bounce delay-1000"></div>
+
+        {/* Geometric Shapes */}
+        <div className="absolute top-1/3 right-12 w-16 h-16 border border-white/20 rotate-45 animate-[spin_4s_linear_infinite]"></div>
+      </div>
+
+      <div className="relative z-10 text-center px-6 select-none">
+        <div className="mb-15 mt-18">
+          <h1 className="text-5xl md:text-6xl font-bold mb-4 text-white drop-shadow-lg">
+            Welcome to{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[rgb(175,5,10)] to-[rgb(255,40,9)]">
+              Collab
+            </span>
+          </h1>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+
+        <div className="mb-12">
+          <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto leading-relaxed drop-shadow">
+            Share your <span className="font-bold text-[rgb(185,10,10)]">Levi's</span> product experience through video — quick, simple,
+            and personal.
+          </p>
+        </div>
+
+        {/* Beautiful Login Button */}
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center z-[9999]">
+          <button
+            onClick={handleLoginClick}
+            className="select-none group bg-gradient-to-r from-[rgb(185,10,10)] to-[rgb(155,0,0)] hover:from-[rgb(205,10,0)] hover:to-[rgb(120,0,0)] text-white px-8 py-4 rounded-full font-bold text-lg transition-all duration-300 transform hover:scale-105 shadow-2xl flex items-center gap-3 min-w-[200px]"
+          >
+            <FaSignInAlt className="text-lg" />
+            Login to Continue
+            <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
+          </button>
+        </div>
+
+        {/* Feature Cards */}
+        <div className="mt-16 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:border-[rgb(185,10,10)]/30 transition-all duration-300">
+            <h3 className="text-lg font-semibold text-white mb-2">
+              🎥 Video Reviews
+            </h3>
+            <p className="text-gray-300 text-sm">Share authentic experiences</p>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:border-[rgb(185,10,10)]/30 transition-all duration-300">
+            <h3 className="text-lg font-semibold text-white mb-2">
+              👥 Community
+            </h3>
+            <p className="text-gray-300 text-sm">Influencers influencing your style</p>
+          </div>
+          <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 hover:border-[rgb(185,10,10)]/30 transition-all duration-300">
+            <h3 className="text-lg font-semibold text-white mb-2">
+              🏆 Rewards
+            </h3>
+            <p className="text-gray-300 text-sm">Earn vouchers for sharing</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
